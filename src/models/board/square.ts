@@ -1,5 +1,5 @@
 import Piece from "../pieces/piece";
-import { Position } from "../position";
+import Position from "../position";
 
 export default class Square {
   position: Position;

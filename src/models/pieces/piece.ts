@@ -1,3 +1,6 @@
+import Position from "../position";
+import { CoordsTuple } from "../types";
+
 export default abstract class Piece {
   color: string;
   moved: false;

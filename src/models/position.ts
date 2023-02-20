@@ -1,10 +1,11 @@
 import { getCharCode } from "./helpers";
+import { CoordsTuple } from "./types";
 
-export class Position {
+export default class Position {
   x: number;
   y: number;
 
-  static parse(pos: Position | [x: number, y: number] | string) {
+  static parse(pos: Position | CoordsTuple | string) {
     if (pos instanceof Position) return pos;
     if (typeof pos === "string") {
       const [file, rank] = pos.split("");
@@ -30,6 +31,22 @@ export class Position {
   }
 
   times(factor: number) {
-    return new Position(this.x, this.y * factor);
+    return new Position(this.x * factor, this.y * factor);
+  }
+
+  left() {
+    return new Position(this.x - 1, this.y);
+  }
+
+  right() {
+    return new Position(this.x + 1, this.y);
+  }
+
+  top() {
+    return new Position(this.x, this.y + 1);
+  }
+
+  bottom() {
+    return new Position(this.x, this.y - 1);
   }
 }
