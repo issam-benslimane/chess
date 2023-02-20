@@ -6,5 +6,10 @@ export default abstract class Piece {
     this.moved = false;
   }
 
+  isEnemy(piece: Piece) {
+    return this.color !== piece.color;
+  }
+
   abstract toFen(): string;
+  abstract moves();
 }
