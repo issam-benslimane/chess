@@ -1,5 +1,5 @@
 import Position from "../position";
-import { CoordsTuple } from "../types";
+import { Positions } from "../types";
 import Square from "./square";
 const SIZE = 8;
 
@@ -14,9 +14,15 @@ export default class Board {
     this.squares = squares;
   }
 
-  squareAt(pos: string | CoordsTuple | Position) {
+  squareAt(pos: Positions) {
     const position = Position.parse(pos);
     return this.squares.find((s) => s.position.equals(position));
+  }
+
+  inBound(pos: Positions) {
+    const position = Position.parse(pos);
+    const { x, y } = position;
+    return x >= 0 && y >= 0 && x < SIZE && y < SIZE;
   }
 }
 
