@@ -2,7 +2,7 @@ import { diagonal, horizontal, vertical } from "../moves";
 import Piece from "./piece";
 
 export default class Queen extends Piece {
-  moves() {
+  moveTypes() {
     return [vertical(), horizontal(), diagonal()];
   }
 

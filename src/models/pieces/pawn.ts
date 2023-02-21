@@ -1,13 +1,18 @@
-import { custom, topDiagonal } from "../moves";
+import { bottomDiagonal, down, topDiagonal, up } from "../moves";
 import { Directions } from "../types";
 import Piece from "./piece";
 
 export default class Pawn extends Piece {
-  direction: Directions = this.color === "white" ? "up" : "down";
+  moveTypes() {
+    return this.color === "white" ? this.whiteMoves() : this.blackMoves();
+  }
 
-  moves() {
-    const verticalMove = custom({ depth: this.moved ? 1 : 2 }, this.direction);
-    return [verticalMove, topDiagonal({ depth: 1 })];
+  blackMoves() {
+    return [up({ depth: this.moved ? 1 : 2 }), topDiagonal({ depth: 1 })];
+  }
+
+  whiteMoves() {
+    return [down({ depth: this.moved ? 1 : 2 }), bottomDiagonal({ depth: 1 })];
   }
 
   toFen(): string {

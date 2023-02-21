@@ -3,7 +3,7 @@ import { Directions } from "../types";
 import Piece from "./piece";
 
 export default class Knight extends Piece {
-  moves() {
+  moveTypes() {
     const directions: Directions[][] = [
       ["up", "up", "right"],
       ["up", "up", "left"],

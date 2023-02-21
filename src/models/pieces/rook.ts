@@ -2,8 +2,8 @@ import { vertical } from "../moves";
 import Piece from "./piece";
 
 export default class Rook extends Piece {
-  moves() {
-    return [vertical()];
+  moveTypes() {
+    return vertical();
   }
 
   toFen(): string {

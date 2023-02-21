@@ -1,10 +1,10 @@
 import Position from "../position";
-import { CoordsTuple } from "../types";
+import { CoordsTuple, PieceColor } from "../types";
 
 export default abstract class Piece {
   color: string;
   moved: false;
-  constructor(color: string) {
+  constructor(color: PieceColor) {
     this.color = color;
     this.moved = false;
   }
@@ -14,5 +14,5 @@ export default abstract class Piece {
   }
 
   abstract toFen(): string;
-  abstract moves();
+  abstract moveTypes();
 }

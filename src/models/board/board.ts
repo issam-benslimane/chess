@@ -1,10 +1,14 @@
+import { legalMoves } from "../legal_moves";
+import King from "../pieces/king";
+import Piece from "../pieces/piece";
 import Position from "../position";
-import { Positions } from "../types";
+import { PieceColor, Positions } from "../types";
 import Square from "./square";
 const SIZE = 8;
 
 export default class Board {
   squares: Square[];
+  previousVersion: null | Board;
 
   static empty() {
     return new Board(createSquares());
@@ -12,15 +16,23 @@ export default class Board {
 
   constructor(squares: Square[]) {
     this.squares = squares;
+    this.previousVersion = null;
   }
 
-  legalMoves(pos: Positions) {
+  legalMovesAt(pos: Positions) {
     const square = this.squareAt(pos);
+    if (square == null) throw new Error("Please provide a valid position!");
+    return legalMoves(this, square);
   }
 
   squareAt(pos: Positions) {
     const position = Position.parse(pos);
+    if (!this.inBound(position)) return null;
     return this.squares.find((s) => s.position.equals(position));
+  }
+
+  kingPosition(color: PieceColor) {
+    return this.squares.find((s) => s.piece instanceof King);
   }
 
   inBound(pos: Positions) {

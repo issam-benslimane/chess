@@ -1,32 +1,21 @@
 import { fromFen } from "./fen";
-import { isMultiDimArray, isString } from "./helpers";
 import { generateMoves } from "./moves_generator";
 import { Directions } from "./types";
 
-function legalMoves(
-  opt,
-  directions: Directions | Directions[] | Directions[][]
-) {
-  if (isString(directions)) return generateMoves(opt, [directions]);
-  else if (isMultiDimArray<Directions>(directions)) {
-    return directions.map((d) => generateMoves(opt, d));
-  } else return generateMoves(opt, directions);
-}
-
 export function up(opt = {}) {
-  return legalMoves(opt, "up");
+  return generateMoves(opt, "up");
 }
 
 export function down(opt = {}) {
-  return legalMoves(opt, "down");
+  return generateMoves(opt, "down");
 }
 
 export function left(opt = {}) {
-  return legalMoves(opt, "left");
+  return generateMoves(opt, "left");
 }
 
 export function right(opt = {}) {
-  return legalMoves(opt, "right");
+  return generateMoves(opt, "right");
 }
 
 export function topDiagonal(opt = {}) {
@@ -34,7 +23,7 @@ export function topDiagonal(opt = {}) {
     ["up", "right"],
     ["up", "left"],
   ];
-  return legalMoves(opt, directions);
+  return generateMoves(opt, directions);
 }
 
 export function bottomDiagonal(opt = {}) {
@@ -42,7 +31,7 @@ export function bottomDiagonal(opt = {}) {
     ["down", "right"],
     ["down", "left"],
   ];
-  return legalMoves(opt, directions);
+  return generateMoves(opt, directions);
 }
 
 export function horizontal(opt = {}) {
@@ -58,7 +47,11 @@ export function diagonal(opt = {}) {
 }
 
 export function custom(opt = {}, directions) {
-  return legalMoves(opt, directions);
+  return generateMoves(opt, directions);
 }
 
-const board = fromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+export function enPassant() {}
+
+const board = fromFen("r1b1k1nr/p2p1pNp/n2B4/1p1NP2P/6P1/3P4/P1P1K3/q5b1");
+
+console.log(board.legalMovesAt("e2"));

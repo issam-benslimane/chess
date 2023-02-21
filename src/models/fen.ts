@@ -1,13 +1,13 @@
 import Board from "./board/board";
 import Square from "./board/square";
 import pieces from "./pieces/";
+import Position from "./position";
 
 const SIZE = 8;
 
 export function fromFen(sequence: string): Board {
   const squares = parseFen(sequence).map((v, i) => {
-    const x = i % SIZE;
-    const y = Math.floor(i / SIZE);
+    const { x, y } = Position.parse(i);
     return v ? new Square(x, y, findPiece(v)) : new Square(x, y);
   });
   return new Board(squares);
@@ -20,6 +20,7 @@ function parseFen(sequence: string): Array<string | null> {
     );
   }
   const squares = Array(SIZE * SIZE).fill(null);
+  const length = squares.length;
   let [x, y] = [0, 0];
   for (let v of sequence) {
     if (!isNaN(+v)) {

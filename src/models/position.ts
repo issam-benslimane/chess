@@ -1,20 +1,32 @@
 import { getCharCode } from "./helpers";
 import { Positions } from "./types";
 
+const SIZE = 8;
+
 export default class Position {
   x: number;
   y: number;
 
   static parse(pos: Positions) {
     if (pos instanceof Position) return pos;
+    let x: number, y: number;
     if (typeof pos === "string") {
       const [file, rank] = pos.split("");
-      return new Position(getCharCode(file), Number(rank) - 1);
+      x = getCharCode(file);
+      y = SIZE - Number(rank);
+    } else if (typeof pos === "number") {
+      x = pos % SIZE;
+      y = Math.floor(pos / SIZE);
+    } else if (Array.isArray(pos)) {
+      [x, y] = pos;
+    } else {
+      x = pos.x;
+      y = pos.y;
     }
-    if (Array.isArray(pos)) {
-      return new Position(...pos);
-    }
-    return new Position(pos.x, pos.y);
+    if (x < 0 || y < 0 || x >= SIZE || y >= SIZE)
+      throw new Error("Please provide a valid position!");
+
+    return new Position(x, y);
   }
 
   constructor(x: number, y: number) {

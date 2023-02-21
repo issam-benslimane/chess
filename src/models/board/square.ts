@@ -9,6 +9,11 @@ export default class Square {
     this.piece = piece;
   }
 
+  setPiece(piece: Piece | null) {
+    const { x, y } = this.position;
+    return new Square(x, y, piece);
+  }
+
   isEmpty() {
     return this.piece == null;
   }
