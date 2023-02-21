@@ -1,8 +1,9 @@
+import { diagonal, horizontal, vertical } from "../moves";
 import Piece from "./piece";
 
 export default class Queen extends Piece {
   moves() {
-    return [];
+    return [vertical(), horizontal(), diagonal()];
   }
 
   toFen(): string {

@@ -1,8 +1,9 @@
+import { diagonal } from "../moves";
 import Piece from "./piece";
 
 export default class Bishop extends Piece {
   moves() {
-    return [];
+    return [diagonal()];
   }
 
   toFen(): string {

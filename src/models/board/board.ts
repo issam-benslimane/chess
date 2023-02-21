@@ -14,6 +14,10 @@ export default class Board {
     this.squares = squares;
   }
 
+  legalMoves(pos: Positions) {
+    const square = this.squareAt(pos);
+  }
+
   squareAt(pos: Positions) {
     const position = Position.parse(pos);
     return this.squares.find((s) => s.position.equals(position));
