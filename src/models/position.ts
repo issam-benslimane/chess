@@ -1,5 +1,5 @@
 import { SIZE } from "./constants";
-import { getCharCode } from "./helpers";
+import { getCharCode, toChar } from "./helpers";
 import { Positions } from "./types";
 
 export default class Position {

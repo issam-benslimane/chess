@@ -1,5 +1,5 @@
 export function toChar(n: number) {
-  return String.fromCharCode(96 + n);
+  return String.fromCharCode(97 + n);
 }
 
 export function getCharCode(char: string) {

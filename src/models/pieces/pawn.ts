@@ -1,5 +1,4 @@
 import { bottomDiagonal, down, topDiagonal, up } from "../moves";
-import { Directions } from "../types";
 import Piece from "./piece";
 
 export default class Pawn extends Piece {
@@ -10,14 +9,14 @@ export default class Pawn extends Piece {
   blackMoves() {
     return [
       up({ depth: this.moved ? 1 : 2, take: false }),
-      topDiagonal({ depth: 1 }),
+      topDiagonal({ depth: 1, move: false }),
     ];
   }
 
   whiteMoves() {
     return [
       down({ depth: this.moved ? 1 : 2, take: false }),
-      bottomDiagonal({ depth: 1 }),
+      bottomDiagonal({ depth: 1, move: false }),
     ];
   }
 

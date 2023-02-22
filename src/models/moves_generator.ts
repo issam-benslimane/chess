@@ -5,7 +5,7 @@ import { isMultiDimArray, isString } from "./helpers";
 import Position from "./position";
 import { Directions } from "./types";
 
-const defaultOptions = { depth: SIZE, take: true };
+const defaultOptions = { depth: SIZE, take: true, move: true };
 
 export function generateMoves(
   opt,
@@ -28,7 +28,7 @@ function movesGenerator(opt, directions: Directions[]) {
       if (currentSquare == null) break;
       const { piece } = currentSquare;
       if (piece == null) {
-        moves.push(currentPosition);
+        if (opt.move) moves.push(currentPosition);
       } else {
         if (square.piece.isEnemy(piece) && opt.take)
           moves.push(currentPosition);

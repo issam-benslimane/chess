@@ -12,7 +12,7 @@ export default class Knight extends Piece {
       ["down", "down", "right"],
       ["down", "down", "left"],
       ["down", "right", "right"],
-      ["down", "left", "right"],
+      ["down", "left", "left"],
     ];
     return custom({ depth: 1 }, directions);
   }

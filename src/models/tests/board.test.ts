@@ -27,9 +27,15 @@ describe("legal moves", () => {
 
   describe("when not causing check", () => {
     let board = randomBoard();
-    test("pawn moves", () => {
-      let moves = board.legalMovesAt("a2");
-      expect(moves).toHaveLength(3);
+    describe("pawn moves", () => {
+      test("when no enemy is in diagonal", () => {
+        let moves = board.legalMovesAt("a2");
+        expect(moves).toHaveLength(2);
+      });
+      test("when an enemy is in diagonal", () => {
+        let moves = board.legalMovesAt("e5");
+        expect(moves).toHaveLength(2);
+      });
     });
     test("rook moves", () => {
       let moves = board.legalMovesAt("h2");
@@ -67,7 +73,6 @@ describe("legal moves", () => {
 
     test("other pieces should not move otherwise", () => {
       let moves = board.legalMovesAt("a1");
-      console.log(board.squares.map((s) => s.piece?.toFen() || null));
 
       expect(moves).toHaveLength(0);
     });
