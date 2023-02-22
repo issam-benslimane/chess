@@ -8,11 +8,17 @@ export default class Pawn extends Piece {
   }
 
   blackMoves() {
-    return [up({ depth: this.moved ? 1 : 2 }), topDiagonal({ depth: 1 })];
+    return [
+      up({ depth: this.moved ? 1 : 2, take: false }),
+      topDiagonal({ depth: 1 }),
+    ];
   }
 
   whiteMoves() {
-    return [down({ depth: this.moved ? 1 : 2 }), bottomDiagonal({ depth: 1 })];
+    return [
+      down({ depth: this.moved ? 1 : 2, take: false }),
+      bottomDiagonal({ depth: 1 }),
+    ];
   }
 
   toFen(): string {

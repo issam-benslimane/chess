@@ -1,10 +1,10 @@
 import Board from "./board/board";
 import Square from "./board/square";
+import { SIZE } from "./constants";
 import { isMultiDimArray, isString } from "./helpers";
 import Position from "./position";
 import { Directions } from "./types";
 
-const SIZE = 8;
 const defaultOptions = { depth: SIZE, take: true };
 
 export function generateMoves(
@@ -26,14 +26,15 @@ function movesGenerator(opt, directions: Directions[]) {
     for (let i = 0; i < opt.depth; i++) {
       const currentSquare = board.squareAt(currentPosition);
       if (currentSquare == null) break;
-      const { piece, position } = currentSquare;
+      const { piece } = currentSquare;
       if (piece == null) {
-        moves.push(position);
+        moves.push(currentPosition);
       } else {
-        if (square.piece.isEnemy(piece) && opt.take) moves.push(position);
+        if (square.piece.isEnemy(piece) && opt.take)
+          moves.push(currentPosition);
         break;
       }
-      currentPosition = getPosition(position, directions);
+      currentPosition = getPosition(currentPosition, directions);
     }
 
     return moves;

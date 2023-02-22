@@ -1,7 +1,6 @@
+import { SIZE } from "./constants";
 import { getCharCode } from "./helpers";
 import { Positions } from "./types";
-
-const SIZE = 8;
 
 export default class Position {
   x: number;

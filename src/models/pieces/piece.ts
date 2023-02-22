@@ -1,12 +1,15 @@
-import Position from "../position";
-import { CoordsTuple, PieceColor } from "../types";
+import { PieceColor } from "../types";
 
 export default abstract class Piece {
-  color: string;
+  color: PieceColor;
   moved: false;
   constructor(color: PieceColor) {
     this.color = color;
     this.moved = false;
+  }
+
+  enemyColor() {
+    return this.color === "black" ? "white" : "black";
   }
 
   isEnemy(piece: Piece) {

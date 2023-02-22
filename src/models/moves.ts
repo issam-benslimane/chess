@@ -1,4 +1,3 @@
-import { fromFen } from "./fen";
 import { generateMoves } from "./moves_generator";
 import { Directions } from "./types";
 
@@ -46,12 +45,11 @@ export function diagonal(opt = {}) {
   return [topDiagonal(opt), bottomDiagonal(opt)];
 }
 
-export function custom(opt = {}, directions) {
+export function custom(
+  opt = {},
+  directions: Directions | Directions[] | Directions[][]
+) {
   return generateMoves(opt, directions);
 }
 
 export function enPassant() {}
-
-const board = fromFen("r1b1k1nr/p2p1pNp/n2B4/1p1NP2P/6P1/3P4/P1P1K3/q5b1");
-
-console.log(board.legalMovesAt("e2"));
