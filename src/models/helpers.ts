@@ -6,6 +6,10 @@ export function getCharCode(char: string) {
   return char.charCodeAt(0) - 97;
 }
 
+export function isUppercase(char: string) {
+  return char === char.toUpperCase();
+}
+
 export function isString(s: unknown): s is string {
   return typeof s === "string" || s instanceof String;
 }

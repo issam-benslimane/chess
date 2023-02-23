@@ -1,21 +1,23 @@
-import Board from "./board/board";
 import Square from "./board/square";
-import { SIZE } from "./constants";
-import pieces from "./pieces/";
+import Board from "./board/board";
+import { initialPlacement, SIZE } from "./constants";
+import { isUppercase } from "./helpers";
+import * as pieces from "./pieces/";
 import Position from "./position";
 
 export function fromFen(sequence: string): Board {
   const squares = parseFen(sequence).map((v, i) => {
     const { x, y } = Position.parse(i);
-    return v ? new Square(x, y, findPiece(v)) : new Square(x, y);
+    return new Square(x, y, createPiece(v));
   });
+
   return new Board(squares);
 }
 
 function parseFen(sequence: string): Array<string | null> {
   if (!isCorrectFen(sequence)) {
     throw new Error(
-      "Cannot format the given sequence, please provide a valid FEN!"
+      "Cannot parse the given sequence, please provide a valid FEN!"
     );
   }
   const squares = Array(SIZE * SIZE).fill(null);
@@ -38,7 +40,20 @@ function isCorrectFen(sequence: string): boolean {
   return /((([pnbrqkPNBRQK1-8]{1,8})\/?){8})/.test(sequence);
 }
 
-function findPiece(v: string) {
-  let piece = pieces.find((p) => p.toFen() === v);
+function createPiece(fen: string | null) {
+  if (!fen) return null;
+  const Piece = findPiece(fen);
+  const color = colorFromFen(fen);
+  return Piece && new Piece(color);
+}
+
+function findPiece(fen: string) {
+  let piece = Object.values(pieces).find(
+    (p) => p.fen === fen.toLocaleLowerCase()
+  );
   return piece;
+}
+
+function colorFromFen(fen: string) {
+  return isUppercase(fen) ? "white" : "black";
 }

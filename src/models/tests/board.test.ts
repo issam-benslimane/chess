@@ -1,10 +1,12 @@
 import Board from "../board/board";
 import Square from "../board/square";
+console.log(Board);
 
 const initialBoard = () => Board.start();
 const randomBoard = () =>
   Board.fen("rkb13r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K2R/q5b1");
-const checkBoard = () => Board.fen("b3B3/8/8/3K/8/8/8/K7");
+const kingInCheck = () => Board.fen("b3B3/8/8/3K/8/8/8/K7");
+const checkMateBoard = () => Board.fen("4R2k/8/7K/8/8/8/8/8");
 
 describe("squares", () => {
   let board = initialBoard();
@@ -20,8 +22,8 @@ describe("squares", () => {
 describe("legal moves", () => {
   describe("when square is empty", () => {
     let board = initialBoard();
-    test("should return undefined", () => {
-      expect(board.legalMovesAt("a3")).toBeUndefined();
+    test("should return null", () => {
+      expect(board.legalMovesAt("a3")).toBeNull();
     });
   });
 
@@ -55,12 +57,12 @@ describe("legal moves", () => {
     });
     test("king moves", () => {
       let moves = board.legalMovesAt("e2");
-      expect(moves).toHaveLength(7);
+      expect(moves).toHaveLength(2);
     });
   });
 
   describe("when king is in check", () => {
-    let board = checkBoard();
+    let board = kingInCheck();
     test("king can move into a safe position", () => {
       let moves = board.legalMovesAt("e8");
       expect(moves).toHaveLength(1);
@@ -76,5 +78,12 @@ describe("legal moves", () => {
 
       expect(moves).toHaveLength(0);
     });
+  });
+});
+
+describe("check mate", () => {
+  let board = checkMateBoard();
+  test("when king has nowhere to hide, the game is over", () => {
+    expect(board.checkMate("black")).toBeTruthy();
   });
 });

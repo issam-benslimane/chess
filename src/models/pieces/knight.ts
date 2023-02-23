@@ -2,7 +2,9 @@ import { custom } from "../moves";
 import { Directions } from "../types";
 import Piece from "./piece";
 
-export default class Knight extends Piece {
+export class Knight extends Piece {
+  static fen = "n";
+
   moveTypes() {
     const directions: Directions[][] = [
       ["up", "up", "right"],
@@ -15,9 +17,5 @@ export default class Knight extends Piece {
       ["down", "left", "left"],
     ];
     return custom({ depth: 1 }, directions);
-  }
-
-  toFen(): string {
-    return this.color === "white" ? "N" : "n";
   }
 }

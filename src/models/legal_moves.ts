@@ -12,10 +12,7 @@ function generateLegalMoves(board: Board, square: Square) {
 }
 
 function isLegalMove(board: Board, originSquare: Square, target: Position) {
-  const newBoard = board.changePiecePosition(
-    originSquare.position,
-    target
-  ) as Board;
+  const newBoard = board.changePiecePosition(originSquare.position, target);
   const color = originSquare.piece!.color;
   const enemyColor = originSquare.piece!.enemyColor();
   const kingSquare = newBoard.kingSquare(color);
@@ -54,10 +51,7 @@ function memoize(fn: (board: Board, square: Square) => Position[]) {
       cache.set("board", board);
     } else {
       const moves = cache.get(key);
-      if (moves) {
-        console.log("herrre");
-        return moves;
-      }
+      if (moves) return moves;
     }
     const moves = fn(board, square);
     cache.set(key, moves);

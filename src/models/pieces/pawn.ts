@@ -1,7 +1,9 @@
 import { bottomDiagonal, down, topDiagonal, up } from "../moves";
 import Piece from "./piece";
 
-export default class Pawn extends Piece {
+export class Pawn extends Piece {
+  static fen = "p";
+
   moveTypes() {
     return this.color === "white" ? this.whiteMoves() : this.blackMoves();
   }
@@ -18,9 +20,5 @@ export default class Pawn extends Piece {
       down({ depth: this.moved ? 1 : 2, take: false }),
       bottomDiagonal({ depth: 1, move: false }),
     ];
-  }
-
-  toFen(): string {
-    return this.color === "white" ? "P" : "p";
   }
 }

@@ -1,7 +1,7 @@
 import { initialPlacement } from "../constants";
 import { fromFen } from "../fen";
 import { legalMoves } from "../legal_moves";
-import King from "../pieces/king";
+import { King } from "../pieces/king";
 import Piece from "../pieces/piece";
 import Position from "../position";
 import { PieceColor, Positions } from "../types";
@@ -26,7 +26,7 @@ export default class Board {
 
   legalMovesAt(pos: Positions) {
     const square = this.squareAt(pos);
-    if (square?.piece == null) return;
+    if (square?.piece == null) return null;
     return legalMoves(this, square);
   }
 
@@ -58,6 +58,10 @@ export default class Board {
     return this.squares.find((s) => s.position.equals(position));
   }
 
+  pieceAt(pos: Positions) {
+    return this.squareAt(pos)?.piece?.color;
+  }
+
   getNonEmptySquares(pieceColor?: PieceColor) {
     return this.squares.filter((s) =>
       pieceColor ? s.piece?.color === pieceColor : s.piece
@@ -69,6 +73,12 @@ export default class Board {
   }
 
   kingSquare(color: PieceColor): Square {
-    return this.squares.find((s) => s.piece instanceof King)!;
+    return this.getNonEmptySquares(color).find((s) => s.piece instanceof King)!;
+  }
+
+  checkMate(color: PieceColor) {
+    return this.getNonEmptySquares(color).every(
+      (s) => this.legalMovesAt(s.position)!.length === 0
+    );
   }
 }

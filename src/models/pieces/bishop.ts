@@ -1,12 +1,10 @@
 import { diagonal } from "../moves";
 import Piece from "./piece";
 
-export default class Bishop extends Piece {
+export class Bishop extends Piece {
+  static fen = "b";
+
   moveTypes() {
     return diagonal();
-  }
-
-  toFen(): string {
-    return this.color === "white" ? "B" : "b";
   }
 }

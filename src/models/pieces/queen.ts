@@ -1,12 +1,10 @@
 import { diagonal, horizontal, vertical } from "../moves";
 import Piece from "./piece";
 
-export default class Queen extends Piece {
+export class Queen extends Piece {
+  static fen = "q";
+
   moveTypes() {
     return [vertical(), horizontal(), diagonal()];
-  }
-
-  toFen(): string {
-    return this.color === "white" ? "Q" : "q";
   }
 }

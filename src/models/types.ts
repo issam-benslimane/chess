@@ -14,3 +14,5 @@ export type Positions =
 export type Directions = "up" | "down" | "left" | "right";
 
 export type PieceColor = "white" | "black";
+
+export type Player = "humain" | "computer";
