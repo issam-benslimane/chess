@@ -11,8 +11,8 @@ export default class Square {
 
   setPiece(piece: Piece | null) {
     const { x, y } = this.position;
-    piece && (piece.moved = true);
-    return new Square(x, y, piece);
+    const newPiece = piece && piece.move();
+    return new Square(x, y, newPiece);
   }
 
   isEmpty() {

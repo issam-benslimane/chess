@@ -8,8 +8,7 @@ type Props = {
 };
 
 const Backdrop = ({ status, className, children }: Props) => {
-  const backdrop =
-    status === "preparing" && "filter blur-sm pointer-events-none";
+  const backdrop = status !== "playing" && "filter blur-sm pointer-events-none";
   return <div className={clsx(className, backdrop)}>{children}</div>;
 };
 

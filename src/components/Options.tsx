@@ -20,7 +20,9 @@ const Options = ({ color, player }: Prop) => {
           value={type}
           onChange={(e) => setType(e.target.value as Player)}
         >
-          <option value="computer">Computer</option>
+          <option value="computer" disabled>
+            Computer
+          </option>
           <option value="humain">Humain</option>
         </select>
       </label>

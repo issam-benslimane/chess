@@ -41,6 +41,10 @@ export default class Position {
     return new Position(this.x + other_position.x, this.y + other_position.y);
   }
 
+  minus(other_position: Position) {
+    return new Position(this.x - other_position.x, this.y - other_position.y);
+  }
+
   times(factor: number) {
     return new Position(this.x * factor, this.y * factor);
   }

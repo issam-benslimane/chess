@@ -1,6 +1,6 @@
 import Square from "./board/square";
 import Board from "./board/board";
-import { initialPlacement, SIZE } from "./constants";
+import { SIZE } from "./constants";
 import { isUppercase } from "./helpers";
 import * as pieces from "./pieces/";
 import Position from "./position";

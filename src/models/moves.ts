@@ -51,5 +51,3 @@ export function custom(
 ) {
   return generateMoves(opt, directions);
 }
-
-export function enPassant() {}

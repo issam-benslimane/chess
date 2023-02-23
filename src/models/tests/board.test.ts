@@ -1,6 +1,5 @@
 import Board from "../board/board";
 import Square from "../board/square";
-console.log(Board);
 
 const initialBoard = () => Board.start();
 const randomBoard = () =>

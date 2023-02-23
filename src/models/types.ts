@@ -13,6 +13,8 @@ export type Positions =
 
 export type Directions = "up" | "down" | "left" | "right";
 
+export type Move = { origin: Position; target: Position };
+
 export type PieceColor = "white" | "black";
 
 export type Player = "humain" | "computer";

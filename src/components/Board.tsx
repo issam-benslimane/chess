@@ -11,9 +11,10 @@ type Props = {
   status: string;
   current: PieceColor;
   switchTurn: () => void;
+  gameOver: () => void;
 };
 
-const ChessBoard = ({ status, current, switchTurn }: Props) => {
+const ChessBoard = ({ status, current, switchTurn, gameOver }: Props) => {
   const [board, setBoard] = useState(Board.start());
   const [moves, setMoves] = useState<Position[] | null>(null);
   const [triggered, setTriggered] = useState<Position | null>(null);
@@ -42,8 +43,13 @@ const ChessBoard = ({ status, current, switchTurn }: Props) => {
     const newBoard = board.placePiece(origin, target);
     if (newBoard === board) return;
     setBoard(newBoard);
+    if (newBoard.checkMate(getOpponent(current))) return gameOver();
     switchTurn();
     return true;
+  };
+
+  const getOpponent = (color: PieceColor) => {
+    return color === "white" ? "black" : "white";
   };
 
   return (

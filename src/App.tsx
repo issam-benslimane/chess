@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ChessBoard from "./components/Board";
+import Gameover from "./components/GameOver";
 import Home from "./components/Home";
 import { PieceColor, Player } from "./models/types";
 
@@ -8,15 +9,20 @@ function App() {
   const [current, setCurrent] = useState<PieceColor>("white");
   const [players, setPlayers] = useState<Record<PieceColor, Player>>({
     white: "humain",
-    black: "computer",
+    black: "humain",
   });
 
   const startGame = () => {
     setStatus("playing");
   };
 
+  const restart = () => {
+    setStatus("preparing");
+    setCurrent("white");
+  };
+
   const gameOver = () => {
-    setStatus("game-over");
+    setStatus("gameover");
   };
 
   function switchTurn() {
@@ -28,7 +34,17 @@ function App() {
       {status === "preparing" && (
         <Home players={players} startGame={startGame} />
       )}
-      <ChessBoard status={status} switchTurn={switchTurn} current={current} />
+      {status === "gameover" && (
+        <Gameover winner={current} startGame={startGame} restart={restart} />
+      )}
+      {status === "playing" && (
+        <ChessBoard
+          status={status}
+          switchTurn={switchTurn}
+          current={current}
+          gameOver={gameOver}
+        />
+      )}
     </div>
   );
 }
