@@ -1,3 +1,61 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, min-content);
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.square {
+  width: calc(var(--scale) * 1px);
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.square--odd {
+  background-color: #eeeed2;
+}
+
+.square--even {
+  background-color: #769656;
+}
+
+.square--circle-sm::before,
+.square--circle-lg::before {
+  content: "";
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.square--circle-sm::before {
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.square--circle-lg::before {
+  width: 100%;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+}
+
+.piece {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 90%;
+  position: absolute;
+  width: calc(var(--scale) * 1px);
+  aspect-ratio: 1;
+  top: calc(var(--scale) * var(--y) * 1px);
+  left: calc(var(--scale) * var(--x) * 1px);
+  z-index: 10;
+  cursor: pointer;
+}
