@@ -40,5 +40,5 @@ export function cloneBoard(board: Board) {
     }
     return null;
   });
-  return new Board(cells, board.lastPlaced);
+  return new Board(cells, board.lastMoved);
 }
