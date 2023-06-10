@@ -3,21 +3,21 @@ import Square from "./board/square";
 import { SIZE } from "./constants";
 import { isMultiDimArray, isString } from "./helpers";
 import Position from "./position";
-import { Directions } from "./types";
+import { Direction } from "./types";
 
 const defaultOptions = { depth: SIZE, take: true, move: true };
 
 export function generateMoves(
   opt,
-  directions: Directions | Directions[] | Directions[][]
+  directions: Direction | Direction[] | Direction[][]
 ) {
   if (isString(directions)) return movesGenerator(opt, [directions]);
-  else if (isMultiDimArray<Directions>(directions)) {
+  else if (isMultiDimArray<Direction>(directions)) {
     return directions.map((d) => movesGenerator(opt, d));
   } else return movesGenerator(opt, directions);
 }
 
-function movesGenerator(opt, directions: Directions[]) {
+function movesGenerator(opt, directions: Direction[]) {
   opt = Object.assign({}, defaultOptions, opt);
   return (board: Board, square: Square) => {
     if (square.piece == null) return [];
@@ -41,6 +41,6 @@ function movesGenerator(opt, directions: Directions[]) {
   };
 }
 
-function getPosition(position: Position, directions: Directions[]) {
+function getPosition(position: Position, directions: Direction[]) {
   return directions.reduce((final, d) => final[d](), position);
 }

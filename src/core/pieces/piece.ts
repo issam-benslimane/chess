@@ -1,11 +1,16 @@
-import { PieceColor } from "../types";
+import Board from "../board/board";
+import Position from "../position";
+import { Direction, PieceColor } from "../types";
 
 export default abstract class Piece {
   color: PieceColor;
   moved: boolean;
-  constructor(color: PieceColor, moved: boolean = false) {
+  direction: Direction;
+
+  constructor(color: PieceColor, moved = false) {
     this.color = color;
     this.moved = moved;
+    this.direction = this.color === "white" ? "down" : "up";
   }
 
   enemyColor() {
@@ -17,8 +22,7 @@ export default abstract class Piece {
   }
 
   move() {
-    const Piece = this.constructor;
-    return new Piece(this.color, true);
+    this.moved = true;
   }
 
   abstract moveTypes();

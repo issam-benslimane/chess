@@ -11,7 +11,9 @@ export type Positions =
   | ObjectPosition
   | Position;
 
-export type Directions = "up" | "down" | "left" | "right";
+export type Direction = "up" | "down" | "left" | "right";
+
+export type MoveOption = { depth: number; take: boolean; move: boolean };
 
 export type Move = { origin: Position; target: Position };
 

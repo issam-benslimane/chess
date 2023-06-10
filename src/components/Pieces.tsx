@@ -1,24 +1,16 @@
 import React from "react";
-import Square from "../models/board/square";
-import Position from "../models/position";
-import { PieceColor } from "../models/types";
-import PieceIcon from "./Piece";
+import PieceIcon from "./PieceIcon";
+import Piece from "../core/pieces/piece";
 
 type Props = {
-  squares: Square[];
-  handleClick: (pos: Position, color: PieceColor) => void;
+  pieces: Piece[];
 };
 
-const Pieces = ({ squares, handleClick }: Props) => {
+const Pieces = ({ pieces }: Props) => {
   return (
     <div className="pieces">
-      {squares.map((s, i) => (
-        <PieceIcon
-          key={i}
-          piece={s.piece!}
-          position={s.position}
-          handleClick={handleClick}
-        />
+      {pieces.map((piece, i) => (
+        <PieceIcon key={i} piece={piece} position={s.position} />
       ))}
     </div>
   );

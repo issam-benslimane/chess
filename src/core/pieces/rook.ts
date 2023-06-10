@@ -1,4 +1,4 @@
-import { horizontal, vertical } from "../moves";
+import { horizontal, vertical } from "../moves/basic-moves";
 import Piece from "./piece";
 
 export class Rook extends Piece {

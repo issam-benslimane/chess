@@ -1,12 +1,9 @@
 import React from "react";
-import Piece from "../models/pieces/piece";
-import Position from "../models/position";
-import { PieceColor } from "../models/types";
+import Piece from "../core/pieces/piece";
+import { PieceColor } from "../core/types";
 
 type Props = {
   piece: Piece;
-  position: Position;
-  handleClick: (pos: Position, color: PieceColor) => void;
 };
 
 function getPieceUrl(fen: string, color: PieceColor) {
@@ -20,7 +17,7 @@ function getPieceFen(piece: Piece) {
   return piece.color === "white" ? fen.toUpperCase() : fen;
 }
 
-const PieceIcon = ({ piece, position, handleClick }: Props) => {
+const PieceIcon = ({ piece }: Props) => {
   const pieceUrl = getPieceUrl(getPieceFen(piece), piece.color);
   return (
     <div
@@ -28,11 +25,8 @@ const PieceIcon = ({ piece, position, handleClick }: Props) => {
       style={
         {
           backgroundImage: `url(${pieceUrl})`,
-          "--x": position.x,
-          "--y": position.y,
         } as React.CSSProperties
       }
-      onClick={() => handleClick(position, piece.color)}
     ></div>
   );
 };

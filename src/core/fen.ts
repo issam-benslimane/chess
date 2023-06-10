@@ -1,15 +1,13 @@
-import Square from "./board/square";
 import Board from "./board/board";
 import { SIZE } from "./constants";
 import { isUppercase } from "./helpers";
-import * as pieces from "./pieces/";
-import Position from "./position";
+import * as pieces from "./pieces";
+import Piece from "./pieces/piece";
 
 export function fromFen(sequence: string): Board {
-  const squares = parseFen(sequence).map((v, i) => {
-    const { x, y } = Position.parse(i);
-    return new Square(x, y, createPiece(v));
-  });
+  const squares: (Piece | null)[] = parseFen(sequence).map((v) =>
+    createPiece(v)
+  );
 
   return new Board(squares);
 }
@@ -40,11 +38,11 @@ function isCorrectFen(sequence: string): boolean {
   return /((([pnbrqkPNBRQK1-8]{1,8})\/?){8})/.test(sequence);
 }
 
-function createPiece(fen: string | null) {
+function createPiece(fen: string | null): Piece | null {
   if (!fen) return null;
   const Piece = findPiece(fen);
   const color = colorFromFen(fen);
-  return Piece && new Piece(color);
+  return new Piece!(color);
 }
 
 function findPiece(fen: string) {

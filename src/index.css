@@ -1,6 +1,45 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
 
 .board {
   display: grid;
@@ -45,6 +84,10 @@
 .square--circle-lg::before {
   width: 100%;
   border: 5px solid rgba(0, 0, 0, 0.1);
+}
+
+.square--moved {
+  background-color: rgb(238, 238, 91);
 }
 
 .piece {

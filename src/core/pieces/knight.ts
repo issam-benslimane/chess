@@ -1,12 +1,12 @@
-import { custom } from "../moves";
-import { Directions } from "../types";
+import { custom } from "../moves/basic-moves";
+import { Direction } from "../types";
 import Piece from "./piece";
 
 export class Knight extends Piece {
   static fen = "n";
 
   moveTypes() {
-    const directions: Directions[][] = [
+    const directions: Direction[][] = [
       ["up", "up", "right"],
       ["up", "up", "left"],
       ["up", "right", "right"],
@@ -16,6 +16,6 @@ export class Knight extends Piece {
       ["down", "right", "right"],
       ["down", "left", "left"],
     ];
-    return custom({ depth: 1 }, directions);
+    return custom(directions, { depth: 1 });
   }
 }

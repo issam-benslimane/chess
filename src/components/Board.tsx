@@ -1,72 +1,50 @@
 import React, { useState } from "react";
-import Board from "../models/board/board";
-import Position from "../models/position";
-import { PieceColor } from "../models/types";
-import Backdrop from "./Backdrop";
-import Pieces from "./Pieces";
+import { PieceColor } from "../core/types";
 import Square from "./Square";
+import { useBoard } from "../hooks/useBoard";
+import Position from "../core/position";
 const SCALE = 65;
 
 type Props = {
-  status: string;
   current: PieceColor;
   switchTurn: () => void;
-  gameOver: () => void;
 };
 
-const ChessBoard = ({ status, current, switchTurn, gameOver }: Props) => {
-  const [board, setBoard] = useState(Board.start());
-  const [moves, setMoves] = useState<Position[] | null>(null);
+const ChessBoard = ({ current, switchTurn }: Props) => {
+  const { board, getLegalMoves, movePiece } = useBoard();
   const [triggered, setTriggered] = useState<Position | null>(null);
+  const possibleMoves = triggered ? getLegalMoves(triggered) : [];
 
-  const handleClick = (pos: Position, color: PieceColor = current) => {
-    if (current !== color) return reset();
+  const isPossibleMove = (position: Position) => {
+    return possibleMoves.some((move) => move.equals(position));
+  };
+
+  const onSquareClick = (position: Position) => {
     if (triggered) {
-      const isPlaced = placePiece(triggered, pos);
-      if (pos.equals(triggered) || isPlaced) return reset();
-    }
-    getLegalMoves(pos);
-    setTriggered(pos);
-  };
-
-  const reset = () => {
-    setMoves(null);
-    setTriggered(null);
-  };
-
-  const getLegalMoves = (pos: Position) => {
-    const legalMoves = board.legalMovesAt(pos);
-    setMoves(legalMoves);
-  };
-
-  const placePiece = (origin: Position, target: Position) => {
-    const newBoard = board.placePiece(origin, target);
-    if (newBoard === board) return;
-    setBoard(newBoard);
-    if (newBoard.checkMate(getOpponent(current))) return gameOver();
-    switchTurn();
-    return true;
-  };
-
-  const getOpponent = (color: PieceColor) => {
-    return color === "white" ? "black" : "white";
+      if (triggered.equals(position)) setTriggered(null);
+      else if (isPossibleMove(position)) {
+        movePiece(triggered, position);
+      } else if (board.pieceAt(position)) {
+        setTriggered(position);
+      } else setTriggered(null);
+    } else setTriggered(position);
   };
 
   return (
-    <Backdrop className="h-full w-full grid content-center" status={status}>
-      <div
-        className="board"
-        style={{ "--scale": SCALE } as React.CSSProperties}
-      >
-        {board.squares.map((s, i) => (
-          <Square key={i} moves={moves} handleClick={handleClick} {...s} />
-        ))}
-        <Pieces
-          squares={board.getNonEmptySquares()}
-          handleClick={handleClick}
+    <div className="board" style={{ "--scale": SCALE } as React.CSSProperties}>
+      {board.cells.map((cell, i) => (
+        <Square
+          key={i}
+          piece={cell}
+          position={Position.parse(i)}
+          onSquareClick={() => onSquareClick(Position.parse(i))}
+          isPossibleMove={isPossibleMove(Position.parse(i))}
+          hasChanged={[board.lastMoved?.from, board.lastMoved?.to].some(
+            (position) => position && Position.parse(i).equals(position)
+          )}
         />
-      </div>
-    </Backdrop>
+      ))}
+    </div>
   );
 };
 

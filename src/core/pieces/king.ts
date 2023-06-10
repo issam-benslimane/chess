@@ -1,4 +1,4 @@
-import { diagonal, horizontal, vertical } from "../moves";
+import { diagonal, horizontal, vertical } from "../moves/basic-moves";
 import Piece from "./piece";
 
 export class King extends Piece {
