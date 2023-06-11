@@ -41,19 +41,14 @@ export default class Board {
       }, cell);
     });
     return new Board(newCells, {
-      from: Position.parse(origin),
-      to: Position.parse(target),
+      from: origin,
+      to: target,
     });
-  }
-
-  updateCell(pos: Positions, v: Piece | null) {
-    const { x, y } = Position.parse(pos);
-    this.cells[y * 8 + x] = v;
   }
 
   pieceAt(pos: Positions) {
     const { x, y } = Position.parse(pos);
-    return this.cells[y * 8 + x];
+    return this.cells[y * SIZE + x];
   }
 
   getPiecePosition(piece: Piece) {

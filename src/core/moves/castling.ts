@@ -43,7 +43,7 @@ function isCastling(board: Board, origin: Position, target: Position) {
     let current = getPositionFromDirections(origin, [direction]);
     while (board.inBound(current)) {
       const cell = board.pieceAt(current);
-      if (isRook(cell)) return cell;
+      if (cell) return isRook(cell) ? cell : undefined;
       current = getPositionFromDirections(current, [direction]);
     }
   }
