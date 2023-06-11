@@ -1,11 +1,13 @@
 import Board from "../board/board";
 import { Move } from "../moves/Move";
+import { King, Rook } from "../pieces";
 
 const randomBoard = () =>
   Board.fen("r1b4r/p2pBpNp/n1k2n2/1p1NP2P/6P1/3P4/P1P1K2R/q5b1");
 const kingInCheck = () => Board.fen("b3B3/8/8/3K/8/8/8/P7");
 const checkMateBoard = () => Board.fen("4R2k/8/7K/8/8/8/8/8");
 const enPassantBoard = () => Board.fen("k6K/8/8/8/2p5/8/3P4/8");
+const castlingBoard = () => Board.fen("8/8/8/8/8/8/8/R3K2R");
 
 describe("legal moves", () => {
   describe("when a move does not cause check", () => {
@@ -46,9 +48,20 @@ describe("legal moves", () => {
       let moves = new Move(board, "a1").getLegalMoves();
       expect(moves).toHaveLength(10);
     });
-    test("king moves", () => {
-      let moves = new Move(board, "c6").getLegalMoves();
-      expect(moves).toHaveLength(2);
+    describe("king moves", () => {
+      test("normal moves", () => {
+        let moves = new Move(board, "c6").getLegalMoves();
+        expect(moves).toHaveLength(2);
+      });
+      test("castling", () => {
+        let board = castlingBoard();
+        let move = new Move(board, "e1", "g1");
+        let moves = move.getLegalMoves();
+        expect(moves).toHaveLength(7);
+        board = move.movePiece();
+        expect(board.pieceAt("g1")).toBeInstanceOf(King);
+        expect(board.pieceAt("f1")).toBeInstanceOf(Rook);
+      });
     });
   });
 

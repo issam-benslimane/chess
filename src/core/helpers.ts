@@ -32,13 +32,3 @@ export function getPositionFromDirections(
 ) {
   return directions.reduce((final, d) => final[d](), position);
 }
-
-export function cloneBoard(board: Board) {
-  const cells = [...board.cells].map((cell) => {
-    if (cell) {
-      return new cell.constructor(cell.color, cell.moved);
-    }
-    return null;
-  });
-  return new Board(cells, board.lastMoved);
-}

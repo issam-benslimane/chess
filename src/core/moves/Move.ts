@@ -2,7 +2,8 @@ import Board from "../board/board";
 import Piece from "../pieces/piece";
 import Position from "../position";
 import { Positions } from "../types";
-import { isEnPassant } from "./enpassant";
+import { getCastlingActions } from "./castling";
+import { getEnpassantActions } from "./enpassant";
 import { isCheck } from "./isCheck";
 
 export class Move {
@@ -18,11 +19,12 @@ export class Move {
   movePiece(target?: Position) {
     target = target || this.target;
     if (!target) throw new Error("Please provide a target");
-    const actions: { from: Position; to?: Position }[] = [];
-    if (isEnPassant(this.board, this.origin, target)) {
-      const lastMovedPosition = this.board.lastMoved?.to as Position;
-      actions.push({ from: lastMovedPosition });
-    }
+    const actions = [getEnpassantActions, getCastlingActions]
+      .map((fn) => fn(this.board, this.origin, target!))
+      .filter((action) => typeof action === "object") as {
+      from: Position;
+      to?: Position;
+    }[];
     return this.board.placePiece(this.origin, target, actions);
   }
 

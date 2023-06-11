@@ -36,8 +36,7 @@ export default class Board {
       if (position.equals(target)) return this.pieceAt(origin)?.move();
       return actions.reduce((v, { from, to }) => {
         if (position.equals(from)) return null;
-        if (to && position.equals(to))
-          return to ? this.pieceAt(from)?.move() : null;
+        if (to && position.equals(to)) return this.pieceAt(from)?.move();
         return v;
       }, cell);
     });
@@ -60,10 +59,6 @@ export default class Board {
   getPiecePosition(piece: Piece) {
     const index = this.cells.findIndex((cell) => cell === piece);
     return Position.parse(index);
-  }
-
-  getPieces(color?: PieceColor): Piece[] {
-    return [];
   }
 
   getNonEmptyCells(color?: PieceColor) {

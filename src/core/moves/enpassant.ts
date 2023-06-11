@@ -16,7 +16,16 @@ export function enPassant() {
   };
 }
 
-export function isEnPassant(board: Board, origin: Position, target: Position) {
+export function getEnpassantActions(
+  board: Board,
+  origin: Position,
+  target: Position
+) {
+  if (isEnPassant(board, origin, target))
+    return { from: board.lastMoved?.to as Position };
+}
+
+function isEnPassant(board: Board, origin: Position, target: Position) {
   const originPiece = board.pieceAt(origin) as Piece;
   const targetCell = board.pieceAt(target);
   const neighborPosition = getPositionFromDirections(target, [
