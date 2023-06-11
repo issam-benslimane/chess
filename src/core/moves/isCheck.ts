@@ -1,5 +1,4 @@
 import Board from "../board/board";
-import { cloneBoard } from "../helpers";
 import Piece from "../pieces/piece";
 import Position from "../position";
 import { Move } from "./Move";
@@ -7,15 +6,14 @@ import { Move } from "./Move";
 export function isCheck(board: Board, origin: Position, target: Position) {
   const originPiece = board.pieceAt(origin) as Piece;
   const enemyColor = originPiece.enemyColor();
-  const enemySquares = board.getNonEmptyCells(enemyColor);
-  const clonedBoard = cloneBoard(board);
-  const move = new Move(clonedBoard, origin);
-  move.movePiece(target);
-  const kingPosition = clonedBoard.kingPosition(originPiece.color);
+  const move = new Move(board, origin);
+  const newBoard = move.movePiece(target);
+  const enemySquares = newBoard.getNonEmptyCells(enemyColor);
+  const kingPosition = newBoard.kingPosition(originPiece.color);
   return enemySquares.some((piece) => {
     const moves = new Move(
-      clonedBoard,
-      board.getPiecePosition(piece)
+      newBoard,
+      newBoard.getPiecePosition(piece)
     ).getPieceMoves();
     return isCausingCheck(moves, kingPosition);
   });

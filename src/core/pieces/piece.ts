@@ -22,7 +22,7 @@ export default abstract class Piece {
   }
 
   move() {
-    this.moved = true;
+    return new this.constructor(this.color, true);
   }
 
   abstract moveTypes();

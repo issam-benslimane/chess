@@ -19,7 +19,16 @@ describe("legal moves", () => {
         let moves = new Move(board, "e5").getLegalMoves();
         expect(moves).toHaveLength(2);
       });
-      test.skip("en passant", () => {});
+      test("en passant", () => {
+        let board = enPassantBoard();
+        let firstMove = new Move(board, "d2", "d4");
+        board = firstMove.movePiece();
+        let secondMove = new Move(board, "c4", "d3");
+        let moves = secondMove.getLegalMoves();
+        expect(moves).toHaveLength(3);
+        board = secondMove.movePiece();
+        expect(board.pieceAt("d4")).toBeNull();
+      });
     });
     test("rook moves", () => {
       let moves = new Move(board, "h2").getLegalMoves();

@@ -15,8 +15,6 @@ export type Direction = "up" | "down" | "left" | "right";
 
 export type MoveOption = { depth: number; take: boolean; move: boolean };
 
-export type Move = { origin: Position; target: Position };
-
 export type PieceColor = "white" | "black";
 
 export type Player = "humain" | "computer";

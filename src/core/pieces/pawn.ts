@@ -13,6 +13,7 @@ export class Pawn extends Piece {
     return [
       up({ depth: this.moved ? 1 : 2, take: false }),
       topDiagonal({ depth: 1, move: false }),
+      enPassant(),
     ];
   }
 
@@ -20,6 +21,7 @@ export class Pawn extends Piece {
     return [
       down({ depth: this.moved ? 1 : 2, take: false }),
       bottomDiagonal({ depth: 1, move: false }),
+      enPassant(),
     ];
   }
 }

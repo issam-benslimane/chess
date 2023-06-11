@@ -2,24 +2,28 @@ import Board from "../board/board";
 import Piece from "../pieces/piece";
 import Position from "../position";
 import { Positions } from "../types";
+import { isEnPassant } from "./enpassant";
 import { isCheck } from "./isCheck";
 
 export class Move {
   board: Board;
   origin: Position;
   target?: Position;
-  piece: Piece;
   constructor(board: Board, origin: Positions, target?: Positions) {
     this.board = board;
     this.origin = Position.parse(origin);
     this.target = target ? Position.parse(target) : undefined;
-    this.piece = board.pieceAt(origin) as Piece;
   }
 
   movePiece(target?: Position) {
-    if (target) this.board.placePiece(this.origin, target);
-    else if (this.target) this.board.placePiece(this.origin, this.target);
-    else throw new Error("Please provide a target");
+    target = target || this.target;
+    if (!target) throw new Error("Please provide a target");
+    const actions: { from: Position; to?: Position }[] = [];
+    if (isEnPassant(this.board, this.origin, target)) {
+      const lastMovedPosition = this.board.lastMoved?.to as Position;
+      actions.push({ from: lastMovedPosition });
+    }
+    return this.board.placePiece(this.origin, target, actions);
   }
 
   getLegalMoves() {
@@ -28,7 +32,8 @@ export class Move {
   }
 
   getPieceMoves() {
-    const moveTypes = this.piece.moveTypes();
+    const piece = this.board.pieceAt(this.origin) as Piece;
+    const moveTypes = piece.moveTypes();
     const origin = this.origin;
     const board = this.board;
     function iterate(moveTypes) {

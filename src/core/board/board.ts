@@ -7,7 +7,7 @@ import { PieceColor, Positions } from "../types";
 
 export default class Board {
   cells: (Piece | null)[];
-  lastMoved?: { piece: Piece; from: Position; to: Position };
+  lastMoved?: { from: Position; to: Position };
 
   static start(color: PieceColor = "white") {
     return fromFen(initialPlacement[color]);
@@ -19,22 +19,32 @@ export default class Board {
 
   constructor(
     cells: (Piece | null)[],
-    lastMoved?: { piece: Piece; from: Position; to: Position }
+    lastMoved?: { from: Position; to: Position }
   ) {
     this.cells = cells;
     this.lastMoved = lastMoved;
   }
 
-  placePiece(origin: Positions, target: Positions) {
-    const piece = this.pieceAt(origin) as Piece;
-    this.lastMoved = {
-      piece,
+  placePiece(
+    origin: Position,
+    target: Position,
+    actions: { from: Position; to?: Position }[] = []
+  ) {
+    const newCells = this.cells.map((cell, i) => {
+      const position = Position.parse(i);
+      if (position.equals(origin)) return null;
+      if (position.equals(target)) return this.pieceAt(origin)?.move();
+      return actions.reduce((v, { from, to }) => {
+        if (position.equals(from)) return null;
+        if (to && position.equals(to))
+          return to ? this.pieceAt(from)?.move() : null;
+        return v;
+      }, cell);
+    });
+    return new Board(newCells, {
       from: Position.parse(origin),
       to: Position.parse(target),
-    };
-    this.updateCell(origin, null);
-    this.updateCell(target, piece);
-    piece.move();
+    });
   }
 
   updateCell(pos: Positions, v: Piece | null) {

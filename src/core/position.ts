@@ -1,3 +1,4 @@
+import { Direction } from "readline";
 import { SIZE } from "./constants";
 import { getCharCode } from "./helpers";
 import { Positions } from "./types";
