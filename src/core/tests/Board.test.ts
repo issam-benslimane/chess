@@ -7,19 +7,31 @@ describe("cells", () => {
     expect(board.cells instanceof Array).toBeTruthy();
   });
 
-  test("each cell should have either a Piece or be null", () => {
+  test("each cell should be an object that have a piece and it's position", () => {
     expect(
-      board.cells.every((cell) => cell instanceof Piece || cell === null)
+      board.cells.every(
+        (cell) =>
+          Object.prototype.hasOwnProperty.call(cell, "position") &&
+          Object.prototype.hasOwnProperty.call(cell, "piece")
+      )
+    ).toBeTruthy();
+  });
+
+  test("each piece should have either a Piece or be null", () => {
+    expect(
+      board.cells.every(
+        (cell) => cell.piece instanceof Piece || cell.piece === null
+      )
     ).toBeTruthy();
   });
 
   describe("starting position", () => {
     test("first two and last rows should have a Piece", () => {
       expect(
-        board.cells.slice(0, 16).every((cell) => cell instanceof Piece)
+        board.cells.slice(0, 16).every((cell) => cell.piece instanceof Piece)
       ).toBeTruthy();
       expect(
-        board.cells.slice(-16).every((cell) => cell instanceof Piece)
+        board.cells.slice(-16).every((cell) => cell.piece instanceof Piece)
       ).toBeTruthy();
     });
   });

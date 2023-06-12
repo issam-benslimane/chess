@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ChessBoard = ({ current, switchTurn }: Props) => {
-  const { board, getLegalMoves, movePiece } = useBoard();
+  const { board, getLegalMoves, movePiece } = useBoard("black");
   const [triggered, setTriggered] = useState<Position | null>(null);
   const possibleMoves = triggered ? getLegalMoves(triggered) : [];
 
@@ -32,15 +32,15 @@ const ChessBoard = ({ current, switchTurn }: Props) => {
 
   return (
     <div className="board" style={{ "--scale": SCALE } as React.CSSProperties}>
-      {board.cells.map((cell, i) => (
+      {board.cells.map(({ piece, position }) => (
         <Square
-          key={i}
-          piece={cell}
-          position={Position.parse(i)}
-          onSquareClick={() => onSquareClick(Position.parse(i))}
-          isPossibleMove={isPossibleMove(Position.parse(i))}
+          key={`${position.x}, ${position.y}`}
+          piece={piece}
+          position={position}
+          onSquareClick={() => onSquareClick(position)}
+          isPossibleMove={isPossibleMove(position)}
           hasChanged={[board.lastMoved?.from, board.lastMoved?.to].some(
-            (position) => position && Position.parse(i).equals(position)
+            (current) => current && current.equals(position)
           )}
         />
       ))}

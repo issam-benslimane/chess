@@ -52,10 +52,10 @@ function isCastling(board: Board, origin: Position, target: Position) {
   return true;
 }
 
-function isKing(piece: Piece | null): piece is King {
+function isKing(piece: unknown): piece is King {
   return piece instanceof King;
 }
 
-function isRook(piece: Piece | null): piece is Rook {
+function isRook(piece: unknown): piece is Rook {
   return piece instanceof Rook;
 }

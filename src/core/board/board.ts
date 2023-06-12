@@ -6,11 +6,11 @@ import Position from "../position";
 import { PieceColor, Positions } from "../types";
 
 export default class Board {
-  cells: (Piece | null)[];
+  cells: { piece: Piece | null; position: Position }[];
   lastMoved?: { from: Position; to: Position };
 
   static start(color: PieceColor = "white") {
-    return fromFen(initialPlacement[color]);
+    return fromFen(initialPlacement[color], color);
   }
 
   static fen(sequence: string) {
@@ -18,7 +18,7 @@ export default class Board {
   }
 
   constructor(
-    cells: (Piece | null)[],
+    cells: { piece: Piece | null; position: Position }[],
     lastMoved?: { from: Position; to: Position }
   ) {
     this.cells = cells;
@@ -30,15 +30,19 @@ export default class Board {
     target: Position,
     actions: { from: Position; to?: Position }[] = []
   ) {
-    const newCells = this.cells.map((cell, i) => {
-      const position = Position.parse(i);
-      if (position.equals(origin)) return null;
-      if (position.equals(target)) return this.pieceAt(origin)?.move();
-      return actions.reduce((v, { from, to }) => {
-        if (position.equals(from)) return null;
-        if (to && position.equals(to)) return this.pieceAt(from)?.move();
-        return v;
-      }, cell);
+    const newCells = this.cells.map(({ piece, position }) => {
+      if (position.equals(origin)) return { piece: null, position };
+      if (position.equals(target))
+        return { piece: this.pieceAt(origin)?.move(), position };
+      return actions.reduce(
+        (v, { from, to }) => {
+          if (position.equals(from)) return { piece: null, position };
+          if (to && position.equals(to))
+            return { piece: this.pieceAt(from)?.move(), position };
+          return v;
+        },
+        { piece, position }
+      );
     });
     return new Board(newCells, {
       from: origin,
@@ -47,28 +51,23 @@ export default class Board {
   }
 
   pieceAt(pos: Positions) {
-    const { x, y } = Position.parse(pos);
-    return this.cells[y * SIZE + x];
-  }
-
-  getPiecePosition(piece: Piece) {
-    const index = this.cells.findIndex((cell) => cell === piece);
-    return Position.parse(index);
+    const position = Position.parse(pos);
+    return this.cells.find((cell) => cell.position.equals(position))?.piece;
   }
 
   getNonEmptyCells(color?: PieceColor) {
-    return this.cells.filter((cell) => {
-      if (!cell) return false;
-      if (color) return cell.color === color;
+    return this.cells.filter(({ piece }) => {
+      if (!piece) return false;
+      if (color) return piece.color === color;
       return true;
-    }) as Piece[];
+    }) as { piece: Piece; position: Position }[];
   }
 
   kingPosition(color: PieceColor) {
     const cell = this.cells.find(
-      (cell) => cell && cell.color === color && cell instanceof King
-    ) as Piece;
-    return this.getPiecePosition(cell);
+      ({ piece }) => piece && piece.color === color && piece instanceof King
+    );
+    return cell?.position as Position;
   }
 
   inBound(pos: Positions) {

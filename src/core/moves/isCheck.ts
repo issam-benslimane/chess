@@ -11,10 +11,7 @@ export function isCheck(board: Board, origin: Position, target: Position) {
   const enemySquares = newBoard.getNonEmptyCells(enemyColor);
   const kingPosition = newBoard.kingPosition(originPiece.color);
   return enemySquares.some((piece) => {
-    const moves = new Move(
-      newBoard,
-      newBoard.getPiecePosition(piece)
-    ).getPieceMoves();
+    const moves = new Move(newBoard, piece.position).getPieceMoves();
     return isCausingCheck(moves, kingPosition);
   });
 }

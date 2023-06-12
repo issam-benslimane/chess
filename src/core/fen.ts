@@ -3,11 +3,19 @@ import { SIZE } from "./constants";
 import { isUppercase } from "./helpers";
 import * as pieces from "./pieces";
 import Piece from "./pieces/piece";
+import Position from "./position";
+import { PieceColor } from "./types";
 
-export function fromFen(sequence: string): Board {
-  const squares: (Piece | null)[] = parseFen(sequence).map((v) =>
-    createPiece(v)
-  );
+export function fromFen(sequence: string, color: PieceColor = "white"): Board {
+  const squares: { piece: Piece | null; position: Position }[] = parseFen(
+    sequence
+  ).map((v, i) => ({
+    piece: createPiece(v),
+    position:
+      color === "white"
+        ? Position.parse(i)
+        : Position.parse(SIZE * SIZE - 1 - i),
+  }));
 
   return new Board(squares);
 }
