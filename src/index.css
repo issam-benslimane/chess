@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 *,
 *::before,
 *::after {
@@ -23,9 +25,14 @@ ol {
 }
 
 body {
+  font-family: "Roboto", sans-serif;
+  background-color: #42413d;
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  display: grid;
+  place-content: center;
+  padding-top: 2em;
 }
 
 img,
@@ -41,17 +48,42 @@ select {
   font: inherit;
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 0.5em;
+  border: 0;
+  padding: 0.75em 1em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background-color: #7fa650;
+  color: white;
+}
+
+.btn--secondary {
+  background-color: #484744;
+  color: white;
+}
+
 .board {
+  --scale: 60px;
   display: grid;
   grid-template-columns: repeat(8, min-content);
   justify-content: center;
   position: relative;
   width: fit-content;
   margin-inline: auto;
+  border-radius: 0.25em;
+  overflow: hidden;
 }
 
 .square {
-  width: calc(var(--scale) * 1px);
+  width: var(--scale);
   aspect-ratio: 1;
   position: relative;
 }
@@ -95,10 +127,161 @@ select {
   background-repeat: no-repeat;
   background-size: 90%;
   position: absolute;
-  width: calc(var(--scale) * 1px);
+  width: var(--scale);
   aspect-ratio: 1;
   top: calc(var(--scale) * var(--y) * 1px);
   left: calc(var(--scale) * var(--x) * 1px);
   z-index: 10;
   cursor: pointer;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal {
+  position: relative;
+  width: min(25rem, 90vw);
+  margin-inline: auto;
+  border-radius: 0.5em;
+  background-color: #262421;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__title {
+  color: white;
+}
+
+.modal__desc {
+  color: #878584;
+  font-size: 0.95rem;
+}
+
+.close {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  cursor: pointer;
+  background-color: transparent;
+  color: aliceblue;
+  border: none;
+}
+
+.modal--link > fieldset {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 2em 0;
+}
+
+.modal--link > fieldset > p {
+  color: white;
+  font-weight: 500;
+}
+
+.modal--link input {
+  position: absolute;
+  top: 9999px;
+  left: 9999px;
+}
+
+.modal--link label {
+  padding: 0.5em;
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+  margin-left: 0.5em;
+  border-radius: 0.25em;
+}
+
+.modal--link label:nth-of-type(2)::before {
+  content: "";
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+}
+
+.modal--link label:nth-of-type(2) svg {
+  z-index: 50;
+}
+
+.modal--link label:nth-of-type(3) {
+  background-color: white;
+}
+
+.modal--link label.selected {
+  border: 2px solid #7fa650;
+}
+
+.modal--link > *:last-child {
+  width: 100%;
+}
+
+.link-icon {
+  color: aliceblue;
+  margin-bottom: 1em;
+}
+
+.container {
+  display: grid;
+  gap: 1em;
+}
+
+@media (min-width: 55em) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+    width: min(70rem, 90%);
+    margin-inline: auto;
+  }
+}
+
+.container > *:nth-child(2) {
+  background-color: #383734;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+
+.home__container .btn {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+
+.home__container h1 {
+  color: white;
+  font-size: 1.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.modal__email label {
+  margin-block: 2em;
+  width: 100%;
+}
+
+.modal__email input {
+  width: 100%;
+  border: 1px solid #3c3a38;
+  background-color: transparent;
+  color: aliceblue;
+  border-radius: 0.25em;
+  padding: 0.75em 1em;
 }

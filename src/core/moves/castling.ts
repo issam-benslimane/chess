@@ -1,7 +1,6 @@
 import Board from "../board/board";
 import { getPositionFromDirections } from "../helpers";
 import { King, Rook } from "../pieces";
-import Piece from "../pieces/piece";
 import Position from "../position";
 
 export function casling() {

@@ -3,15 +3,17 @@ import { PieceColor } from "../core/types";
 import Square from "./Square";
 import { useBoard } from "../hooks/useBoard";
 import Position from "../core/position";
-const SCALE = 65;
+import { useParams } from "react-router-dom";
+import { socket } from "../socket";
 
 type Props = {
-  current: PieceColor;
-  switchTurn: () => void;
+  gameStarted: boolean;
+  color?: PieceColor;
 };
 
-const ChessBoard = ({ current, switchTurn }: Props) => {
-  const { board, getLegalMoves, movePiece } = useBoard("black");
+const ChessBoard = ({ gameStarted, color = "white" }: Props) => {
+  const gameId = useParams().gameId as string;
+  const { board, turn, getLegalMoves, movePiece } = useBoard(color);
   const [triggered, setTriggered] = useState<Position | null>(null);
   const possibleMoves = triggered ? getLegalMoves(triggered) : [];
 
@@ -20,18 +22,27 @@ const ChessBoard = ({ current, switchTurn }: Props) => {
   };
 
   const onSquareClick = (position: Position) => {
-    if (triggered) {
-      if (triggered.equals(position)) setTriggered(null);
-      else if (isPossibleMove(position)) {
-        movePiece(triggered, position);
-      } else if (board.pieceAt(position)) {
+    if (!gameStarted) return;
+    const target = board.pieceAt(position);
+    if (!triggered) {
+      if (target && target.color === color && target.color === turn)
         setTriggered(position);
-      } else setTriggered(null);
-    } else setTriggered(position);
+      return;
+    }
+    if (target && target.color !== turn && !isPossibleMove(position)) {
+      setTriggered(null);
+    } else if (triggered.equals(position)) setTriggered(null);
+    else if (isPossibleMove(position)) {
+      movePiece(triggered, position);
+      socket.emit("move_piece", gameId, turn, triggered, position);
+      setTriggered(null);
+    } else if (target) {
+      setTriggered(position);
+    } else setTriggered(null);
   };
 
   return (
-    <div className="board" style={{ "--scale": SCALE } as React.CSSProperties}>
+    <div className="board">
       {board.cells.map(({ piece, position }) => (
         <Square
           key={`${position.x}, ${position.y}`}

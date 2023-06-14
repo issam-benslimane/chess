@@ -29,7 +29,7 @@ function generateMovesBase(directions: Direction[], opt: MoveOption) {
     for (let i = 0; i < opt.depth; i++) {
       if (!board.inBound(currentPosition)) break;
       const targetCell = board.pieceAt(currentPosition);
-      if (targetCell === null) {
+      if (targetCell == null) {
         if (opt.move) moves.push(currentPosition);
       } else {
         if (originCell.isEnemy(targetCell) && opt.take)
