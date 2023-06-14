@@ -57,6 +57,15 @@ io.on("connect", (socket) => {
       socket.to(opponent.id).emit("move_piece", origin, target);
     }
   );
+
+  socket.on("message", (gameId: string, color: PieceColor, body: string) => {
+    const game = games.get(gameId);
+    if (!game) return;
+    if (!game.opponent) return;
+    const opponent =
+      game.opponent.color === color ? game.inviter : game.opponent;
+    socket.to(opponent.id).emit("message", { body, isOpponent: true });
+  });
 });
 
 function generateId() {

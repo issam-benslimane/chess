@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ChessBoard from "../Board";
 import { socket } from "../../socket";
 import { Player } from "../../types";
+import Chat from "./Chat";
 
 const OnlineGame = () => {
   const gameId = useParams().gameId as string;
@@ -29,7 +30,13 @@ const OnlineGame = () => {
           gameStarted={player !== undefined}
           color={player?.color}
         />
-        <div>info</div>
+        <div>
+          {player ? (
+            <Chat player={player} />
+          ) : (
+            <p>Waiting for your opponent...</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ body {
   line-height: 1.5;
   display: grid;
   place-content: center;
-  padding-top: 2em;
+  padding: 2em;
 }
 
 img,
@@ -284,4 +284,40 @@ select {
   color: aliceblue;
   border-radius: 0.25em;
   padding: 0.75em 1em;
+}
+
+.chat {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  max-height: 70vh;
+}
+
+.chat > h2 {
+  color: aliceblue;
+}
+
+.messages {
+  color: aliceblue;
+  overflow-y: scroll;
+}
+
+.messages > * > span:first-child {
+  font-weight: 500;
+  margin-right: 0.25em;
+}
+
+.messages > * > span:last-child {
+  word-break: break-all;
+}
+
+.chat input {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  border-top: 1px solid #878584;
+  padding-top: 0.5em;
+  color: aliceblue;
+  font-size: 0.875rem;
 }
